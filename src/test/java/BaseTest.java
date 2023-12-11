@@ -4,7 +4,8 @@ import utilities.PropertyUtil;
 
 public class BaseTest {
     @BeforeClass
-    public static void setup() {
-        RestAssured.baseURI = PropertyUtil.getProperty("base.url");
+    public void setup() {
+        String baseUrl = PropertyUtil.getProperty("base.url");
+        RestAssured.baseURI = baseUrl;
     }
 }

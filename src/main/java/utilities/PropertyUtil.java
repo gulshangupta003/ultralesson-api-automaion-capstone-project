@@ -14,7 +14,11 @@ public class PropertyUtil {
             FileInputStream configFile = new FileInputStream(configPropertyFilePath);
             properties.load(configFile);
             return properties.getProperty(propertyName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
