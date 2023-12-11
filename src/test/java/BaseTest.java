@@ -4,7 +4,7 @@ import org.testng.annotations.BeforeClass;
 public class BaseTest {
     @BeforeClass
     public void setup() {
-        String baseUrl = PropertyUtil.getProperty("base_url");
+        String baseUrl = PropertyUtil.getProperty("base.url");
         RestAssured.baseURI = baseUrl;
     }
 }
