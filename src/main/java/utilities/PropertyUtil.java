@@ -1,7 +1,6 @@
 package utilities;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -14,12 +13,9 @@ public class PropertyUtil {
             FileInputStream configFile = new FileInputStream(configPropertyFilePath);
             properties.load(configFile);
             return properties.getProperty(propertyName);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return null;
         }
     }
 }
