@@ -1,6 +1,8 @@
+import clients.UserClient;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.RandomEmailGenerator;
 
@@ -8,27 +10,24 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class UserLoginTest extends BaseTest {
+    private UserClient userClient;
+
+    @BeforeClass
+    public void beforeClass() {
+        userClient = new UserClient();
+    }
+
     @Test
     public void userShouldLoginWithValidCredentials() {
         // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
         String password = "password123";
 
-        String requestBody = String.format("{\n" +
-                "    \"email\": \"%s\",\n" +
-                "    \"password\": \"%s\"\n" +
-                "}", randomEmail, password);
-
-        Response signupResponse = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .post("/api/auth/signup");
+        Response signupResponse = userClient.createUser(randomEmail, password);
+        String accessToken = signupResponse.jsonPath().getString("data.session.access_token");
 
         // Act
-        Response signinResponse = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .post("/api/auth/login");
+        Response signinResponse = userClient.authenticateUser(randomEmail, password, accessToken);
 
         // Assert
         assertEquals(signinResponse.getStatusCode(), 200, "Status code is not valid");
