@@ -28,8 +28,7 @@ public class UserLoginTest extends BaseTest {
         Response signinResponse = userClient.authenticateUser(randomEmail, password, accessToken);
 
         // Assert
-        assertEquals(signinResponse.getStatusCode(), 200, "Status code is not valid");
+        assertLoginResponse(signinResponse);
         assertEquals(signinResponse.jsonPath().getString("data.user.email"), randomEmail, "Email Id is not matching");
-        assertNotNull(signinResponse.jsonPath().getString("data.session.access_token"), "Access Token should not be empty");
     }
 }
