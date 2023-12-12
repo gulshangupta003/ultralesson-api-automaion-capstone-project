@@ -26,6 +26,7 @@ public class UserLoginTest extends BaseTest {
         String accessToken = signupResponseBody.getData().getSession().getAccessToken();
 
         // Act
+//        LoginResponseBody loginResponseBody = userClient.authenticateUser(randomEmail, password, accessToken);
         LoginResponseBody loginResponseBody = userClient.authenticateUser(randomEmail, password, accessToken);
 
         // Assert

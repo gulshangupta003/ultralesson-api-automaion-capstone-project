@@ -49,7 +49,7 @@ public class LoginResponseBody {
         private String aud;
         @JsonProperty("email_confirmed_at")
         private String emailConfirmedAt;
-        @JsonProperty("app_metadata")
+        @JsonProperty("user_metadata")
         private UserMetadata userMetadata;
         private List<IdentitiesItem> identities;
         @JsonProperty("last_sign_in_at")
@@ -87,7 +87,7 @@ public class LoginResponseBody {
         @JsonProperty("user_id")
         private String userId;
         private String provider;
-        @JsonProperty("updated_at")
+        @JsonProperty("created_at")
         private String createdAt;
         private String id;
         private String email;

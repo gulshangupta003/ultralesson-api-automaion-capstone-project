@@ -38,10 +38,7 @@ public class UserClient {
         Response response = given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
-                .body(String.format("{\n" +
-                        "    \"email\": \"%s\",\n" +
-                        "    \"password\": \"%s\"\n" +
-                        "}", email, password))
+                .body(loginRequestBody)
                 .when()
                 .post("/api/auth/login");
 
