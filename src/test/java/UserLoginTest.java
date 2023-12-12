@@ -3,6 +3,7 @@ import models.auth.LoginResponseBody;
 import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import utilities.PropertyUtil;
 import utilities.RandomEmailGenerator;
 
 public class UserLoginTest extends BaseTest {
@@ -17,7 +18,7 @@ public class UserLoginTest extends BaseTest {
     public void loginSuccessfully() {
         // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
-        String password = "password123";
+        String password = PropertyUtil.getProperty("password");
 
         SignupResponseBody signupResponseBody = userClient.signup(randomEmail, password);
         String accessToken = signupResponseBody.getData().getSession().getAccessToken();
