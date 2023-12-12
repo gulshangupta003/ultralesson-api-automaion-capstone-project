@@ -1,6 +1,4 @@
 import clients.UserClient;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -18,11 +16,14 @@ public class UserSignupTest extends BaseTest {
 
     @Test
     public void successfullySignupUser() {
+        // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
         String password = "password123";
 
+        // Act
         Response response = userClient.createUser(randomEmail, password);
 
+        // Assert
         assertEquals(response.getStatusCode(), 201);
         assertEquals(response.jsonPath().getString("data.user.email"), randomEmail);
     }
