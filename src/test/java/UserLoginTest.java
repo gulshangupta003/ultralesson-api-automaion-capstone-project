@@ -1,5 +1,6 @@
 import clients.UserClient;
-import io.restassured.response.Response;
+import models.auth.LoginResponseBody;
+import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.RandomEmailGenerator;
@@ -21,14 +22,15 @@ public class UserLoginTest extends BaseTest {
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
         String password = "password123";
 
-        Response signupResponse = userClient.createUser(randomEmail, password);
-        String accessToken = signupResponse.jsonPath().getString("data.session.access_token");
+        SignupResponseBody signupResponseBody = userClient.createUser(randomEmail, password);
+        String accessToken = signupResponseBody.getData().getSession().getAccessToken();
 
         // Act
-        Response signinResponse = userClient.authenticateUser(randomEmail, password, accessToken);
+        LoginResponseBody loginResponseBody = userClient.authenticateUser(randomEmail, password, accessToken);
 
         // Assert
-        assertLoginResponse(signinResponse);
-        assertEquals(signinResponse.jsonPath().getString("data.user.email"), randomEmail, "Email Id is not matching");
+        assertEquals(loginResponseBody.getStatusCode(), 200, "Status code is not valid");
+        assertEquals(loginResponseBody.getData().getUser().getEmail(), randomEmail);
+        assertNotNull(loginResponseBody.getData().getSession().getAccessToken());
     }
 }

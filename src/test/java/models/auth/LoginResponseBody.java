@@ -1,0 +1,34 @@
+package models.auth;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.Getter;
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LoginResponseBody {
+    private int statusCode;
+    private Data data;
+
+    @lombok.Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Data {
+        private User user;
+        private Session session;
+    }
+
+    @lombok.Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class User {
+        private String email;
+    }
+
+    @lombok.Data
+    @Getter
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Session {
+        @JsonProperty("access_token")
+        private String accessToken;
+    }
+}

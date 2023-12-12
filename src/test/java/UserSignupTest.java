@@ -1,10 +1,11 @@
 import clients.UserClient;
-import io.restassured.response.Response;
+import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.RandomEmailGenerator;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class UserSignupTest extends BaseTest {
     private UserClient userClient;
@@ -21,10 +22,11 @@ public class UserSignupTest extends BaseTest {
         String password = "password123";
 
         // Act
-        Response response = userClient.createUser(randomEmail, password);
+        SignupResponseBody signupResponseBodyBody = userClient.createUser(randomEmail, password);
 
         // Assert
-        assertSignupResponse(response);
-        assertEquals(response.jsonPath().getString("data.user.email"), randomEmail);
+        assertEquals(signupResponseBodyBody.getStatusCode(), 201, "Status code is not valid");
+        assertEquals(signupResponseBodyBody.getData().getUser().getEmail(), randomEmail);
+        assertNotNull(signupResponseBodyBody.getData().getSession().getAccessToken());
     }
 }
