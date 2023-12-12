@@ -1,12 +1,14 @@
 package clients;
 
-import io.restassured.RestAssured;
+
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.auth.LoginRequestBody;
 import models.auth.LoginResponseBody;
 import models.auth.SignupRequestBody;
 import models.auth.SignupResponseBody;
+
+import static io.restassured.RestAssured.given;
 
 public class UserClient {
     public SignupResponseBody createUser(String email, String password) {
@@ -15,9 +17,10 @@ public class UserClient {
                 .password(password)
                 .build();
 
-        Response response = RestAssured.given()
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .body(signupRequestBodyBody)
+                .when()
                 .post("/api/auth/signup");
 
         SignupResponseBody signupResponseBodyBody = response.as(SignupResponseBody.class);
@@ -32,13 +35,14 @@ public class UserClient {
                 .password(password)
                 .build();
 
-        Response response = RestAssured.given()
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
                 .body(String.format("{\n" +
                         "    \"email\": \"%s\",\n" +
                         "    \"password\": \"%s\"\n" +
                         "}", email, password))
+                .when()
                 .post("/api/auth/login");
 
         LoginResponseBody loginResponseBody = response.as(LoginResponseBody.class);
