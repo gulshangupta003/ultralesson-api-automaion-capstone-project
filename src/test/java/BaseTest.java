@@ -14,7 +14,7 @@ public class BaseTest {
     }
 
     public void assertSignupResponse(Response response) {
-        assertEquals(response.getStatusCode(), 201);
+        assertEquals(response.getStatusCode(), 201, "Status code is not valid");
     }
 
     public void assertLoginResponse(Response response) {
