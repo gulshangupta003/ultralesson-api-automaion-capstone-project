@@ -4,9 +4,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.RandomEmailGenerator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
 public class UserSignupTest extends BaseTest {
     private UserClient userClient;
 
@@ -22,11 +19,9 @@ public class UserSignupTest extends BaseTest {
         String password = "password123";
 
         // Act
-        SignupResponseBody signupResponseBodyBody = userClient.createUser(randomEmail, password);
+        SignupResponseBody signupResponseBodyBody = userClient.signup(randomEmail, password);
 
         // Assert
-        assertEquals(signupResponseBodyBody.getStatusCode(), 201, "Status code is not valid");
-        assertEquals(signupResponseBodyBody.getData().getUser().getEmail(), randomEmail);
-        assertNotNull(signupResponseBodyBody.getData().getSession().getAccessToken());
+        signupResponseBodyBody.assertSuccessfullySignupResponse(randomEmail);
     }
 }

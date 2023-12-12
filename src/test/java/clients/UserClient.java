@@ -11,7 +11,7 @@ import models.auth.SignupResponseBody;
 import static io.restassured.RestAssured.given;
 
 public class UserClient {
-    public SignupResponseBody createUser(String email, String password) {
+    public SignupResponseBody signup(String email, String password) {
         SignupRequestBody signupRequestBodyBody = SignupRequestBody.builder()
                 .email(email)
                 .password(password)
@@ -29,7 +29,7 @@ public class UserClient {
         return signupResponseBodyBody;
     }
 
-    public LoginResponseBody authenticateUser(String email, String password, String accessToken) {
+    public LoginResponseBody login(String email, String password, String accessToken) {
         LoginRequestBody loginRequestBody = LoginRequestBody.builder()
                 .email(email)
                 .password(password)
