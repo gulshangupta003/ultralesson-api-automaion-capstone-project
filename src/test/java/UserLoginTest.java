@@ -3,8 +3,8 @@ import models.auth.LoginResponseBody;
 import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import utilities.PropertyUtil;
-import utilities.RandomEmailGenerator;
+import testdata.UserData;
+import utilities.JsonDataReaderUtils;
 
 public class UserLoginTest extends BaseTest {
     private UserClient userClient;
@@ -17,8 +17,9 @@ public class UserLoginTest extends BaseTest {
     @Test
     public void loginSuccessfully() {
         // Arrange
-        String randomEmail = RandomEmailGenerator.generateRandomEmail();
-        String password = PropertyUtil.getProperty("password");
+        UserData userData = JsonDataReaderUtils.getUserData("src/main/resources/testdata/userData.json", "validUser");
+        String randomEmail = userData.getEmail();
+        String password = userData.getPassword();
 
         SignupResponseBody signupResponseBody = userClient.signup(randomEmail, password);
         String accessToken = signupResponseBody.getData().getSession().getAccessToken();
