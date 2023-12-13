@@ -8,6 +8,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class JsonDataReaderUtils {
+    /**
+     * Retrieves user data from a JSON file based on the provided user key.
+     *
+     * @param filePath The path to the JSON file containing user data.
+     * @param userKey  The key identifying the user within the JSON file.
+     * @return A UserData object representing the user data, or null if an error occurs.
+     * @throws IOException If the provided file path is null or empty.
+     */
     public static UserData getUserData(String filePath, String userKey) {
         ObjectMapper objectMapper = new ObjectMapper();
 
