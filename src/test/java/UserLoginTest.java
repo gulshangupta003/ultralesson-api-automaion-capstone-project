@@ -4,7 +4,7 @@ import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import testdata.UserData;
-import utilities.JsonDataReaderUtils;
+import utilities.DataProvider;
 import utilities.RandomEmailGenerator;
 
 public class UserLoginTest extends BaseTest {
@@ -19,7 +19,7 @@ public class UserLoginTest extends BaseTest {
     public void loginSuccessfully() {
         // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
-        String password = JsonDataReaderUtils.getUserData("src/main/resources/testdata/userData.json", "validUser").getPassword();
+        String password = DataProvider.getData("src/main/resources/testdata/userData.json", "validUser", UserData.class).getPassword();
 
         SignupResponseBody signupResponseBody = userClient.signup(randomEmail, password);
         String accessToken = signupResponseBody.getData().getSession().getAccessToken();
