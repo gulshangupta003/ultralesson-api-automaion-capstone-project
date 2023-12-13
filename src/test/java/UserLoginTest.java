@@ -22,16 +22,14 @@ public class UserLoginTest extends BaseTest {
     @Test
     public void loginSuccessfully() {
         // Arrange
-        String randomEmail = randomDataUtils.generateRandomEmail("gmail.com");
-        String password = userDataProvider.getData("validUser", UserData.class).getPassword();
-
-        SignupResponseBody signupResponseBody = userClient.signup(randomEmail, password);
-        String accessToken = signupResponseBody.getData().getSession().getAccessToken();
+        UserData validUser = userDataProvider.getData("validUser", UserData.class);
+        String email = validUser.getEmail();
+        String password = validUser.getPassword();
 
         // Act
-        LoginResponseBody loginResponseBody = userClient.login(randomEmail, password, accessToken);
+        LoginResponseBody loginResponseBody = userClient.login(email, password);
 
         // Assert
-        loginResponseBody.assertSuccessfullyLoginResponse(randomEmail);
+        loginResponseBody.assertSuccessfullyLoginResponse(email);
     }
 }
