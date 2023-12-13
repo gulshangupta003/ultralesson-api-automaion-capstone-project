@@ -11,11 +11,25 @@ public class EndpointConfig {
     private static JsonNode jsonNode;
 
     static {
-        try (InputStream inputStream = EndpointConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            jsonNode = objectMapper.readTree(inputStream);
+        InputStream inputStream = null;
+        try {
+            inputStream = EndpointConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
+            if (inputStream != null) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                jsonNode = objectMapper.readTree(inputStream);
+            } else {
+                throw new IOException("Resource not found: " + CONFIG_FILE);
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

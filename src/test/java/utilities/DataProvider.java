@@ -1,9 +1,11 @@
 package utilities;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class DataProvider {
@@ -31,7 +33,16 @@ public class DataProvider {
             JsonNode userDataNode = jsonData.get(dataKey);
 
             return objectMapper.treeToValue(userDataNode, classType);
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + filePath);
+            e.printStackTrace();
+            return null;
+        } catch (JsonParseException e) {
+            System.out.println("Error parsing JSON file: " + filePath);
+            e.printStackTrace();
+            return null;
         } catch (IOException e) {
+            System.out.println("An I/O error occurred when accessing the file: " + filePath);
             e.printStackTrace();
             return null;
         }
