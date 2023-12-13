@@ -8,17 +8,19 @@ import utilities.RandomEmailGenerator;
 
 public class UserSignupTest extends BaseTest {
     private UserClient userClient;
+    private DataProvider userDataProvider;
 
     @BeforeClass
     public void beforeClass() {
         userClient = new UserClient();
+        userDataProvider = new DataProvider("src/main/resources/testdata/userData.json");
     }
 
     @Test
     public void successfullySignupUser() {
         // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
-        String password = DataProvider.getData("src/main/resources/testdata/userData.json", "validUser", UserData.class).getPassword();
+        String password = userDataProvider.getData("validUser", UserData.class).getPassword();
 
         // Act
         SignupResponseBody signupResponseBodyBody = userClient.signup(randomEmail, password);
