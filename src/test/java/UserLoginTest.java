@@ -23,7 +23,6 @@ public class UserLoginTest extends BaseTest {
     public void loginSuccessfully() {
         // Arrange
         String randomEmail = randomDataUtils.generateRandomEmail("gmail.com");
-        System.out.println(randomEmail);
         String password = userDataProvider.getData("validUser", UserData.class).getPassword();
 
         SignupResponseBody signupResponseBody = userClient.signup(randomEmail, password);

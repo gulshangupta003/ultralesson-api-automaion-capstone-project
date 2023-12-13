@@ -42,7 +42,6 @@ public class UserClient {
 
         Response response = given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + accessToken)
                 .body(loginRequestBody)
                 .when()
                 .post(loginEndpoint);
