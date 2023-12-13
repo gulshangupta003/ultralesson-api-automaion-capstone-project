@@ -1,9 +1,13 @@
 package utilities;
 
+import com.github.javafaker.Faker;
+
 import java.util.UUID;
 
 public class RandomEmailGenerator {
     public static String generateRandomEmail() {
-        return UUID.randomUUID().toString() + "@gmail.com";
+        Faker faker = new Faker();
+
+        return faker.internet().emailAddress();
     }
 }
