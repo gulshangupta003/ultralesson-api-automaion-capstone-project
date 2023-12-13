@@ -1,5 +1,4 @@
 import clients.UserClient;
-import com.github.javafaker.Faker;
 import models.auth.LoginResponseBody;
 import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
