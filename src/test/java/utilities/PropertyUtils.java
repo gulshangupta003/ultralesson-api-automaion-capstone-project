@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PropertyUtil {
+public class PropertyUtils {
     public static String getProperty(String propertyName) {
         String configPropertyFilePath = "src/main/resources/config.properties";
 

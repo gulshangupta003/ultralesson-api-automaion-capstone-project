@@ -2,31 +2,30 @@ import clients.UserClient;
 import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import testdata.UserData;
+import utilities.DataProvider;
 import utilities.RandomEmailGenerator;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 public class UserSignupTest extends BaseTest {
     private UserClient userClient;
+    private DataProvider userDataProvider;
 
     @BeforeClass
     public void beforeClass() {
         userClient = new UserClient();
+        userDataProvider = new DataProvider("src/main/resources/testdata/userData.json");
     }
 
     @Test
     public void successfullySignupUser() {
         // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
-        String password = "password123";
+        String password = userDataProvider.getData("validUser", UserData.class).getPassword();
 
         // Act
-        SignupResponseBody signupResponseBodyBody = userClient.createUser(randomEmail, password);
+        SignupResponseBody signupResponseBodyBody = userClient.signup(randomEmail, password);
 
         // Assert
-        assertEquals(signupResponseBodyBody.getStatusCode(), 201, "Status code is not valid");
-        assertEquals(signupResponseBodyBody.getData().getUser().getEmail(), randomEmail);
-        assertNotNull(signupResponseBodyBody.getData().getSession().getAccessToken());
+        signupResponseBodyBody.assertSuccessfullySignupResponse(randomEmail);
     }
 }

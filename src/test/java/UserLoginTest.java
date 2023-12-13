@@ -3,35 +3,33 @@ import models.auth.LoginResponseBody;
 import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import testdata.UserData;
+import utilities.DataProvider;
 import utilities.RandomEmailGenerator;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 public class UserLoginTest extends BaseTest {
     private UserClient userClient;
+    private DataProvider userDataProvider;
 
     @BeforeClass
     public void beforeClass() {
         userClient = new UserClient();
+        userDataProvider = new DataProvider("src/main/resources/testdata/userData.json");
     }
 
     @Test
-    public void userShouldLoginWithValidCredentials() {
+    public void loginSuccessfully() {
         // Arrange
         String randomEmail = RandomEmailGenerator.generateRandomEmail();
-        String password = "password123";
+        String password = userDataProvider.getData("validUser", UserData.class).getPassword();
 
-        SignupResponseBody signupResponseBody = userClient.createUser(randomEmail, password);
+        SignupResponseBody signupResponseBody = userClient.signup(randomEmail, password);
         String accessToken = signupResponseBody.getData().getSession().getAccessToken();
 
         // Act
-//        LoginResponseBody loginResponseBody = userClient.authenticateUser(randomEmail, password, accessToken);
-        LoginResponseBody loginResponseBody = userClient.authenticateUser(randomEmail, password, accessToken);
+        LoginResponseBody loginResponseBody = userClient.login(randomEmail, password, accessToken);
 
         // Assert
-        assertEquals(loginResponseBody.getStatusCode(), 200, "Status code is not valid");
-        assertEquals(loginResponseBody.getData().getUser().getEmail(), randomEmail);
-        assertNotNull(loginResponseBody.getData().getSession().getAccessToken());
+        loginResponseBody.assertSuccessfullyLoginResponse(randomEmail);
     }
 }

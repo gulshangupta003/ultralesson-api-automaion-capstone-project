@@ -13,7 +13,7 @@ import static org.testng.Assert.assertNotNull;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginResponseBody {
+public class SignupResponseBody {
     private int statusCode;
     private Data data;
 
@@ -46,10 +46,8 @@ public class LoginResponseBody {
     @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class User {
-        private String role;
-        @JsonProperty("created_at")
-        private String createdAt;
         private String aud;
+        private String role;
         @JsonProperty("email_confirmed_at")
         private String emailConfirmedAt;
         @JsonProperty("user_metadata")
@@ -60,9 +58,9 @@ public class LoginResponseBody {
         @JsonProperty("updated_at")
         private String updatedAt;
         private String phone;
+        @JsonProperty("created_at")
+        private String createdAt;
         private String id;
-        @JsonProperty("confirmed_at")
-        private String confirmedAt;
         private String email;
         @JsonProperty("app_metadata")
         private AppMetadata appMetadata;
@@ -116,9 +114,9 @@ public class LoginResponseBody {
         private List<String> providers;
     }
 
-    public void assertSuccessfullyLoginResponse(String email) {
-        assertEquals(this.getStatusCode(), 200, "Status code is not valid");
-        assertEquals(this.getData().getUser().getEmail(), email, "Email is not matching");
-        assertNotNull(this.getData().getSession().getAccessToken(), "Access token should not be null");
+    public void assertSuccessfullySignupResponse(String email) {
+        assertEquals(this.getStatusCode(), 201, "Invalid status code");
+        assertEquals(this.getData().getUser().getEmail(), email, "Invalid email id");
+        assertNotNull(this.getData().getSession().accessToken, "Access token should not be null");
     }
 }
