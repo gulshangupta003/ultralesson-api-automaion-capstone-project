@@ -26,17 +26,13 @@ public class DataProvider {
     public <T> T getData(String dataKey, Class<T> classType) {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(filePath);
+
         try {
             if (!file.exists()) {
                 throw new DataProviderException("File not found: " + filePath);
             }
 
-            JsonNode jsonData = null;
-            try {
-                jsonData = objectMapper.readTree(file);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            JsonNode jsonData = objectMapper.readTree(file);
             JsonNode userDataNode = jsonData.get(dataKey);
 
             if (userDataNode == null) {
