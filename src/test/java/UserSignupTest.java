@@ -22,6 +22,7 @@ public class UserSignupTest extends BaseTest {
     public void successfullySignupUser() {
         // Arrange
         String randomEmail = randomDataUtils.generateRandomEmail();
+        assert isValidEmailFormat(randomEmail) : "Invalid email format: " + randomEmail;
         String password = userDataProvider.getData("validUser", UserData.class).getPassword();
 
         // Act
