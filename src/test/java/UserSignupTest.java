@@ -18,7 +18,7 @@ public class UserSignupTest extends BaseTest {
         randomDataUtils = new RandomDataUtils();
     }
 
-    @Test
+    @Test(description = "User should be able to signup successfully with valid credentials")
     public void successfullySignupUser() {
         // Arrange
         String randomEmail = randomDataUtils.generateRandomEmail();
