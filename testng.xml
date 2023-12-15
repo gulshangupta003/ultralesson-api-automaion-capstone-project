@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="API Test Suite">
+<suite name="Parallel test suite" parallel="methods" thread-count="5">
     <test name="MyTest">
         <listeners>
             <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
