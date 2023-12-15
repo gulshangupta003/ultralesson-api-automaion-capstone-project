@@ -1,12 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Parallel test suite" parallel="methods" thread-count="2">
-    <test name="UserLoginTest">
+    <test name="All Tests">
         <classes>
             <class name="UserLoginTest"/>
-        </classes>
-    </test>
-    <test name="UserSignupTest">
-        <classes>
             <class name="UserSignupTest"/>
         </classes>
     </test>
