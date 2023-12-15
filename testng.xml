@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="API Test Suite">
+    <test name="MyTest">
+        <listeners>
+            <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        </listeners>
+        <classes>
+            <class name="UserLoginTest"/>
+            <class name="UserSignupTest"/>
+        </classes>
+    </test>
+</suite>
