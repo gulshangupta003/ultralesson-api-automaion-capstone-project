@@ -27,4 +27,13 @@ public class RandomDataUtils {
     public String generateRandomEmail(String domain) {
         return faker.name().username() + "@" + domain;
     }
+
+    /**
+     * Generates a random password using the Faker library.
+     *
+     * @return A randomly generated password.
+     */
+    public String generateRandomPassword() {
+        return faker.internet().password(8, 16, true, true, true);
+    }
 }
