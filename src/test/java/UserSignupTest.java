@@ -21,7 +21,7 @@ public class UserSignupTest extends BaseTest {
     @Test
     public void successfullySignupUser() {
         // Arrange
-        String randomEmail = randomDataUtils.generateRandomEmail("gmail.com");
+        String randomEmail = randomDataUtils.generateRandomEmail();
         String password = userDataProvider.getData("validUser", UserData.class).getPassword();
 
         // Act
