@@ -1,11 +1,10 @@
 package utilities;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import utilities.exceptions.DataProviderException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class DataProvider {
@@ -26,25 +25,27 @@ public class DataProvider {
      */
     public <T> T getData(String dataKey, Class<T> classType) {
         ObjectMapper objectMapper = new ObjectMapper();
-
+        File file = new File(filePath);
         try {
-            File file = new File(filePath);
-            JsonNode jsonData = objectMapper.readTree(file);
+            if (!file.exists()) {
+                throw new DataProviderException("File not found: " + filePath);
+            }
+
+            JsonNode jsonData = null;
+            try {
+                jsonData = objectMapper.readTree(file);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             JsonNode userDataNode = jsonData.get(dataKey);
 
+            if (userDataNode == null) {
+                throw new DataProviderException("Data key not found: " + dataKey);
+            }
+
             return objectMapper.treeToValue(userDataNode, classType);
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + filePath);
-            e.printStackTrace();
-            return null;
-        } catch (JsonParseException e) {
-            System.out.println("Error parsing JSON file: " + filePath);
-            e.printStackTrace();
-            return null;
         } catch (IOException e) {
-            System.out.println("An I/O error occurred when accessing the file: " + filePath);
-            e.printStackTrace();
-            return null;
+            throw new DataProviderException("An I/O error occurred when accessing file: " + filePath, e);
         }
     }
 }
