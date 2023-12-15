@@ -2,6 +2,9 @@ package utilities;
 
 import com.github.javafaker.Faker;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A utility class for generating random email addresses using the Faker library.
  */
@@ -25,6 +28,27 @@ public class RandomDataUtils {
      * @return A randomly generated email address.
      */
     public String generateRandomEmail(String domain) {
-        return faker.name().username() + "@" + domain;
+        String email = faker.name().username() + "@" + domain;
+
+        if (!isValidEmailFormat(email)) {
+            throw new IllegalArgumentException("Generated email (" + email + ") doesn't match the required format.");
+        }
+
+        return email;
+    }
+
+    /**
+     * Validates the format of an email address.
+     *
+     * @param email email The email address to validate.
+     * @return True if the email address has a valid format, false otherwise.
+     */
+    private boolean isValidEmailFormat(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 }
