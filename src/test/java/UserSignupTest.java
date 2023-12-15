@@ -1,4 +1,5 @@
 import clients.UserClient;
+import jdk.jfr.Description;
 import models.auth.SignupResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -18,7 +19,8 @@ public class UserSignupTest extends BaseTest {
         randomDataUtils = new RandomDataUtils();
     }
 
-    @Test(description = "User should be able to signup successfully with valid credentials")
+    @Test
+    @Description("User should be able to signup successfully with valid credentials")
     public void successfullySignupUser() {
         // Arrange
         String randomEmail = randomDataUtils.generateRandomEmail();

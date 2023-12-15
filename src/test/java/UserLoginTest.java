@@ -1,4 +1,5 @@
 import clients.UserClient;
+import jdk.jfr.Description;
 import models.auth.LoginResponseBody;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,7 +16,8 @@ public class UserLoginTest extends BaseTest {
         userDataProvider = new DataProvider("src/main/resources/testdata/userData.json");
     }
 
-    @Test(description = "User should be able to login successfully with valid credentials")
+    @Test
+    @Description("User should be able to login successfully with valid credentials")
     public void loginSuccessfully() {
         // Arrange
         UserData validUser = userDataProvider.getData("validUser", UserData.class);
