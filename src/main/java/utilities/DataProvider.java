@@ -6,9 +6,12 @@ import utilities.exceptions.DataProviderException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DataProvider {
     private String filePath;
+    private final Map<String, JsonNode> cache = new ConcurrentHashMap<>();
 
     public DataProvider(String filePath) {
         this.filePath = filePath;
@@ -32,14 +35,19 @@ public class DataProvider {
                 throw new DataProviderException("File not found: " + filePath);
             }
 
-            JsonNode jsonData = objectMapper.readTree(file);
-            JsonNode userDataNode = jsonData.get(dataKey);
+            JsonNode jsonData = cache.computeIfAbsent(dataKey, k -> {
+                try {
+                    return objectMapper.readTree(file).get(k);
+                } catch (IOException e) {
+                    throw new DataProviderException("An I/O error occurred when accessing file: " + filePath, e);
+                }
+            });
 
-            if (userDataNode == null) {
+            if (jsonData == null) {
                 throw new DataProviderException("Data key not found: " + dataKey);
             }
 
-            return objectMapper.treeToValue(userDataNode, classType);
+            return objectMapper.treeToValue(jsonData, classType);
         } catch (IOException e) {
             throw new DataProviderException("An I/O error occurred when accessing file: " + filePath, e);
         }
