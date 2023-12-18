@@ -45,3 +45,6 @@ bin/
 
 #browser-stack
 logs/browserstack-plugin.log
+
+#allure
+allure-results
