@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Parallel test suite" parallel="methods" thread-count="2">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
     <test name="Parallel Test">
-        <listeners>
-            <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-        </listeners>
         <classes>
             <class name="UserLoginTest"/>
             <class name="UserSignupTest"/>
