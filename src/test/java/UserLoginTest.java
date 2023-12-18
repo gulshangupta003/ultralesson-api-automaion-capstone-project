@@ -16,6 +16,7 @@ public class UserLoginTest extends BaseTest {
         userDataProvider = new DataProvider("src/main/resources/testdata/userData.json");
     }
 
+
     @Test
     @Description("User should be able to login successfully with valid credentials")
     public void loginSuccessfully() {
