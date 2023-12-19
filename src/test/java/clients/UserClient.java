@@ -3,6 +3,7 @@ package clients;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import listener.RestAssuredListener;
 import models.auth.LoginRequestBody;
 import models.auth.LoginResponseBody;
 import models.auth.SignupRequestBody;
@@ -21,6 +22,7 @@ public class UserClient {
                 .build();
 
         Response response = given()
+                .filter(new RestAssuredListener())
                 .contentType(ContentType.JSON)
                 .body(signupRequestBodyBody)
                 .when()
@@ -41,6 +43,7 @@ public class UserClient {
                 .build();
 
         Response response = given()
+                .filter(new RestAssuredListener())
                 .contentType(ContentType.JSON)
                 .body(loginRequestBody)
                 .when()
