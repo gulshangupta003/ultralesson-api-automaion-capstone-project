@@ -5,6 +5,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import utilities.EnvironmentUtils;
 import utilities.PropertyUtils;
 
 import java.io.PrintWriter;
@@ -17,15 +18,14 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
-        String baseUrl = PropertyUtils.getProperty("base.url");
-        RestAssured.baseURI = baseUrl;
+        RestAssured.baseURI = PropertyUtils.getProperty("base.url", EnvironmentUtils.Environment.DEV);
 
-        LOGGER.info("Test suite setup complete. Base URL: " + baseUrl);
+        LOGGER.info("Test suite setup complete. Base URL: " + RestAssured.baseURI);
     }
 
     @AfterTest
     public void tearDown() {
-        // Any teardown logic you want to add
+        LOGGER.info("Test suite teardown complete.");
     }
 
     @AfterMethod
