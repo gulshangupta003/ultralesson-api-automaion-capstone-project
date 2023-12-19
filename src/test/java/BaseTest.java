@@ -1,9 +1,14 @@
 import io.restassured.RestAssured;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import utilities.PropertyUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +21,22 @@ public class BaseTest {
         RestAssured.baseURI = baseUrl;
 
         LOGGER.info("Test suite setup complete. Base URL: " + baseUrl);
+    }
+
+    @AfterTest
+    public void tearDown() {
+        // Any teardown logic you want to add
+    }
+
+    @AfterMethod
+    public void afterMethod(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            Throwable t = result.getThrowable();
+            StringWriter error = new StringWriter();
+            t.printStackTrace(new PrintWriter(error));
+
+            LOGGER.info(error.toString());
+        }
     }
 
     /**
