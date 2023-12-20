@@ -3,6 +3,8 @@ package utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 public class EnvironmentUtils {
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentUtils.class);
 
@@ -13,14 +15,14 @@ public class EnvironmentUtils {
     public static String getConfigFilePath(Environment environment) {
         switch (environment) {
             case DEV:
-                return "src/main/resources/dev.properties";
+                return "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dev.properties";
             case QA:
-                return "src/main/resources/qa.properties";
+                return "src" + File.separator + "main" + File.separator + "resources" + File.separator + "qa.properties";
             case PROD:
-                return "src/main/resources/prod.properties";
+                return "src" + File.separator + "main" + File.separator + "resources" + File.separator + "prod.properties";
             default:
                 LOGGER.error("Invalid environment: {}", environment);
-                throw new IllegalArgumentException("Invalid environment");
+                throw new IllegalArgumentException("Invalid environment: " + environment);
         }
     }
 }
