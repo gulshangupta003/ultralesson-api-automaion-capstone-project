@@ -25,4 +25,5 @@ dependencies {
 
 test {
     useTestNG()
+    systemProperty "env", System.getProperty("env", "QA")
 }

@@ -26,8 +26,8 @@ public class EnvironmentUtils {
         }
     }
 
-    public static String getEnvironmentProperty(String propertyName) {
+    public static Environment getTestEnvironment() {
         String env = System.getProperty("env", "QA");
-        return PropertyUtils.getProperty(propertyName, Environment.valueOf(env));
+        return EnvironmentUtils.Environment.valueOf(env);
     }
 }

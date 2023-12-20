@@ -18,10 +18,11 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
-        EnvironmentUtils.Environment env = EnvironmentUtils.Environment.QA;
-        RestAssured.baseURI = PropertyUtils.getProperty("base.url", env);
-
-        LOGGER.info("Test suite setup complete. Base URL: " + RestAssured.baseURI);
+        EnvironmentUtils.Environment env = EnvironmentUtils.getTestEnvironment();
+        String baseUrl = PropertyUtils.getProperty("base.url", env);
+        RestAssured.baseURI = baseUrl;
+        
+        LOGGER.info("Test suite setup complete. Environment: {}, Base URL: {}", env, RestAssured.baseURI);
     }
 
     @AfterTest
