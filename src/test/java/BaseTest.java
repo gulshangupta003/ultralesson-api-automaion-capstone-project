@@ -6,7 +6,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import utilities.EnvironmentUtils;
-import utilities.PropertyUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -18,11 +17,10 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
-        EnvironmentUtils.Environment env = EnvironmentUtils.getTestEnvironment();
-        String baseUrl = PropertyUtils.getProperty("base.url", env);
+        String baseUrl = EnvironmentUtils.getBaseUrl();
         RestAssured.baseURI = baseUrl;
-        
-        LOGGER.info("Test suite setup complete. Environment: {}, Base URL: {}", env, RestAssured.baseURI);
+
+        LOGGER.info("Test suite setup complete. Environment: {}, Base URL: {}", EnvironmentUtils.getTestEnvironment(), RestAssured.baseURI);
     }
 
     @AfterTest
