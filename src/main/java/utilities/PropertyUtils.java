@@ -23,23 +23,14 @@ public class PropertyUtils {
 
     private static String getProperty(String propertyName, String configFilePath) {
         Properties properties = new Properties();
-        InputStream configFile = null;
 
-        try {
-            configFile = new FileInputStream(configFilePath);
+        try (InputStream configFile = new FileInputStream(configFilePath)) {
             properties.load(configFile);
+
             return properties.getProperty(propertyName);
         } catch (IOException e) {
             LOGGER.error("Error while loading properties file", e);
             return null;
-        } finally {
-            if (configFile != null) {
-                try {
-                    configFile.close();
-                } catch (IOException e) {
-                    LOGGER.error("Error while closing properties file input stream", e);
-                }
-            }
         }
     }
 }
