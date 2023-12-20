@@ -26,7 +26,7 @@ public class DataProvider {
      * @return An object of type T representing the data, or null if an error occurs.
      * @throws IOException If the provided file path is null or empty.
      */
-    public synchronized <T> T getData(String dataKey, Class<T> classType) {
+    public <T> T getData(String dataKey, Class<T> classType) {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(filePath);
 

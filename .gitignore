@@ -44,6 +44,7 @@ bin/
 .DS_Store
 
 #browser-stack
+logs
 logs/browserstack-plugin.log
 
 #allure
