@@ -25,4 +25,9 @@ public class EnvironmentUtils {
                 throw new IllegalArgumentException("Invalid environment: " + environment);
         }
     }
+
+    public static String getEnvironmentProperty(String propertyName) {
+        String env = System.getProperty("env", "QA");
+        return PropertyUtils.getProperty(propertyName, Environment.valueOf(env));
+    }
 }
