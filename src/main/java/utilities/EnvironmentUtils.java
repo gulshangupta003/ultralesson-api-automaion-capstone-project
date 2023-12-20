@@ -30,4 +30,9 @@ public class EnvironmentUtils {
         String env = System.getProperty("env", "QA");
         return EnvironmentUtils.Environment.valueOf(env);
     }
+
+    public static String getBaseUrl() {
+        EnvironmentUtils.Environment env = getTestEnvironment();
+        return PropertyUtils.getProperty("base.url", env);
+    }
 }
