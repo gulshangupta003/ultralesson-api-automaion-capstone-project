@@ -28,6 +28,7 @@ public class CartTest extends BaseTest {
     @Test
     @Description("User should be able to create cart successfully with valid credentials.")
     public void shouldBeAbleToCreateCartSuccessfully() {
+        // Arrange
         LOGGER.info("createAndDeleteCart test started...");
         String randomEmail = randomDataUtils.generateRandomEmail();
         String password = randomDataUtils.generateRandomPassword();
@@ -37,17 +38,17 @@ public class CartTest extends BaseTest {
                 .getSession()
                 .getAccessToken();
 
+        // Act
         CreateCartResponseBody createCartResponseBody = cartClient.createCart(accessToken);
-        createCartResponseBody.assertCreateCartResponseBody(createCartResponseBody);
 
+        // Assert
+        createCartResponseBody.assertCreateCartResponseBody(createCartResponseBody);
         GetCartResponseBody getCartResponseBody = cartClient.getCart(accessToken);
         getCartResponseBody.assertGetCartResponseBody(getCartResponseBody);
         String cartId = createCartResponseBody.getCartId();
         assertEquals(cartId, getCartResponseBody.getCartId(), "The cart IDs do not match.");
 
-        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, cartId);
-        assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
-
+        this.deleteCart(accessToken, createCartResponseBody.getCartId());
         LOGGER.info("shouldAbleToCreateCart test completed successfully...");
     }
 
@@ -71,12 +72,12 @@ public class CartTest extends BaseTest {
         getCartResponseBody1.assertGetCartResponseBody(getCartResponseBody1);
 
         // Act
-        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, getCartResponseBody1.getCartId());
-        assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
+        this.deleteCart(accessToken, createCartResponseBody.getCartId());
 
         // Assert
         GetCartResponseBody getCartResponseBody2 = cartClient.getCart(accessToken);
-        assertEquals(getCartResponseBody2.getMessage(), "No cart found");
+        assertEquals(getCartResponseBody2.getMessage(), "No cart found",
+                "After deleting cart cart should not available");
         LOGGER.info("shouldDeleteCartSuccessfully test completed successfully...");
     }
 
@@ -103,8 +104,7 @@ public class CartTest extends BaseTest {
         assertEquals(createCartResponseBody2.getMessage(), "Cart already created for the user",
                 "Response message is not matching when the cart is already created");
 
-        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken,
-                createCartResponseBody1.getCartId());
+        this.deleteCart(accessToken, createCartResponseBody1.getCartId());
         LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test completed successfully...");
     }
 
@@ -153,5 +153,10 @@ public class CartTest extends BaseTest {
         assertEquals(createCartResponseBody.getStatusCode(), 401, "Excepted 401 for invalid token");
         assertEquals(createCartResponseBody.getMessage(), "Token is invalid or expired.");
         LOGGER.info("shouldNotCreateCartWhenUnauthorized test completed successfully...");
+    }
+
+    public void deleteCart(String accessToken, String cartId) {
+        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, cartId);
+        assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
     }
 }
