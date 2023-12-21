@@ -8,7 +8,8 @@
   },
   "cart": {
     "createCart": "/api/cart",
-    "addCartItem": "/api/cart/{CART_ID}/items"
+    "deleteCart": "/api/cart/{CART_ID}",
+    "getCart": "/api/cart"
   },
   "payment": {
     "makePayment": "/api/payment"
