@@ -43,7 +43,7 @@ public class CartTest extends BaseTest {
         GetCartResponseBody getCartResponseBody = cartClient.getCart(accessToken);
         getCartResponseBody.assertGetCartResponseBody(getCartResponseBody);
         String cartId = createCartResponseBody.getCartId();
-        assertEquals(cartId, getCartResponseBody.getCartId(), "Cart ID is not matching");
+        assertEquals(cartId, getCartResponseBody.getCartId(), "The cart IDs do not match.");
 
         DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, cartId);
         assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
@@ -137,5 +137,21 @@ public class CartTest extends BaseTest {
                 createCartResponseBody.getCartId()));
 
         LOGGER.info("shouldFailToDeleteCartWithInvalidCartId test completed successfully...");
+    }
+
+    @Test
+    @Description("Attempting to create a cart with an invalid (unauthorized) token should throw ApiException with status code 401.")
+    public void shouldNotCreateCartWhenUnauthorized() {
+        // Arrange
+        LOGGER.info("shouldNotCreateCartWhenUnauthorized test started...");
+        String invalidToken = "invalid-token";
+
+        // Act
+        CreateCartResponseBody createCartResponseBody = cartClient.createCart(invalidToken);
+
+        // Assert
+        assertEquals(createCartResponseBody.getStatusCode(), 401, "Excepted 401 for invalid token");
+        assertEquals(createCartResponseBody.getMessage(), "Token is invalid or expired.");
+        LOGGER.info("shouldNotCreateCartWhenUnauthorized test completed successfully...");
     }
 }

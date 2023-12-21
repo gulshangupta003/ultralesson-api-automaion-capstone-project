@@ -21,7 +21,7 @@ public class GetCartResponseBody {
     public void assertGetCartResponseBody(GetCartResponseBody getCartResponseBody) {
         assertEquals(getCartResponseBody.getStatusCode(), 200, "Invalid status code");
         assertNotNull(getCartResponseBody.getCartId());
-        assertNotNull(getCartResponseBody.getUserId());
+        assertNotNull(getCartResponseBody.getUserId(), "User ID should not be null.");
         assertNotNull(getCartResponseBody.getCreatedAt());
         assertNull(getCartResponseBody.getMessage());
     }
