@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class DeleteCartResponseBody {
     private int statusCode;
+    private String error;
 }

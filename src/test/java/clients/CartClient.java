@@ -54,6 +54,8 @@ public class CartClient {
                 .delete(deleteCartEndpoint);
 
         DeleteCartResponseBody deleteCartResponseBody = new DeleteCartResponseBody();
+        if (response.getStatusCode() == 500)
+            deleteCartResponseBody.setError(response.jsonPath().getString("error"));
         deleteCartResponseBody.setStatusCode(response.getStatusCode());
 
         return deleteCartResponseBody;

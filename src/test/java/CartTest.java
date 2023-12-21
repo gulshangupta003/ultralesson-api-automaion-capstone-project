@@ -107,4 +107,35 @@ public class CartTest extends BaseTest {
                 createCartResponseBody1.getCartId());
         LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test completed successfully...");
     }
+
+    @Test
+    @Description("User should not be able to delete cart with invalid cart ID")
+    public void shouldFailToDeleteCartWithInvalidCartId() {
+        // Arrange
+        LOGGER.info("shouldFailToDeleteCartWithInvalidCartId test started...");
+        String randomEmail = randomDataUtils.generateRandomEmail();
+        String password = randomDataUtils.generateRandomPassword();
+
+        String accessToken = userClient.signup(randomEmail, password)
+                .getData()
+                .getSession()
+                .getAccessToken();
+
+        CreateCartResponseBody createCartResponseBody = cartClient.createCart(accessToken);
+
+        GetCartResponseBody getCartResponseBody = cartClient.getCart(accessToken);
+        getCartResponseBody.assertGetCartResponseBody(getCartResponseBody);
+        assertEquals(getCartResponseBody.getCartId(), createCartResponseBody.getCartId(), "Cart Id is not matching");
+
+        // Act
+        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken,
+                createCartResponseBody.getCartId() + "invalid");
+
+        // Assert
+        assertEquals(deleteCartResponseBody.getStatusCode(), 500, "Expected status code 500, but found: " + deleteCartResponseBody.getStatusCode());
+        assertEquals(deleteCartResponseBody.getError(), String.format("invalid input syntax for type uuid: \"%sinvalid\"",
+                createCartResponseBody.getCartId()));
+
+        LOGGER.info("shouldFailToDeleteCartWithInvalidCartId test completed successfully...");
+    }
 }

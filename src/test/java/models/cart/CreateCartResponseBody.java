@@ -19,10 +19,10 @@ public class CreateCartResponseBody {
     private String message;
 
     public void assertCreateCartResponseBody(CreateCartResponseBody createCartResponseBody) {
-        assertEquals(createCartResponseBody.getStatusCode(), 201, "Invalid status code");
-        assertNotNull(createCartResponseBody.getCartId());
-        assertNotNull(createCartResponseBody.getUserId());
-        assertNotNull(createCartResponseBody.getCreatedAt());
-        assertNull(createCartResponseBody.getMessage());
+        assertEquals(createCartResponseBody.getStatusCode(), 201, "Expected status code 201 for cart creation, but found: " + createCartResponseBody.getStatusCode());
+        assertNotNull(createCartResponseBody.getCartId(), "The 'cartId' should not be null upon successful cart creation.");
+        assertNotNull(createCartResponseBody.getUserId(), "The 'userId' should not be null upon successful cart creation.");
+        assertNotNull(createCartResponseBody.getCreatedAt(), "The 'createdAt' timestamp should not be null upon successful cart creation.");
+        assertNull(createCartResponseBody.getMessage(), "There should be no message upon successful cart creation.");
     }
 }
