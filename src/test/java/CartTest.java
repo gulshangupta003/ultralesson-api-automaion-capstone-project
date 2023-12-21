@@ -52,11 +52,39 @@ public class CartTest extends BaseTest {
     }
 
     @Test
+    @Description("User should be able to delete the cart successfully.")
+    public void shouldDeleteCartSuccessfully() {
+        // Arrange
+        LOGGER.info("shouldDeleteCartSuccessfully test started...");
+        String randomEmail = randomDataUtils.generateRandomEmail();
+        String password = randomDataUtils.generateRandomPassword();
+
+        String accessToken = userClient.signup(randomEmail, password)
+                .getData()
+                .getSession()
+                .getAccessToken();
+
+        CreateCartResponseBody createCartResponseBody = cartClient.createCart(accessToken);
+        createCartResponseBody.assertCreateCartResponseBody(createCartResponseBody);
+
+        GetCartResponseBody getCartResponseBody1 = cartClient.getCart(accessToken);
+        getCartResponseBody1.assertGetCartResponseBody(getCartResponseBody1);
+
+        // Act
+        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, getCartResponseBody1.getCartId());
+        assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
+
+        // Assert
+        GetCartResponseBody getCartResponseBody2 = cartClient.getCart(accessToken);
+        assertEquals(getCartResponseBody2.getMessage(), "No cart found");
+        LOGGER.info("shouldDeleteCartSuccessfully test completed successfully...");
+    }
+
+    @Test
     @Description("Create cart when the cart is already created.")
     public void shouldFailToCreateDuplicateCart() {
-        LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test started...");
-
         // Arrange
+        LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test started...");
         String randomEmail = randomDataUtils.generateRandomEmail();
         String password = randomDataUtils.generateRandomPassword();
 
@@ -75,8 +103,8 @@ public class CartTest extends BaseTest {
         assertEquals(createCartResponseBody2.getMessage(), "Cart already created for the user",
                 "Response message is not matching when the cart is already created");
 
-        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, createCartResponseBody1.getCartId());
-
+        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken,
+                createCartResponseBody1.getCartId());
         LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test completed successfully...");
     }
 }
