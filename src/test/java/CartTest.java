@@ -6,15 +6,14 @@ import models.cart.DeleteCartResponseBody;
 import models.cart.GetCartResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.RandomDataUtils;
 
 import static org.testng.Assert.assertEquals;
 
-public class CreateCartTest extends BaseTest {
-    private static final Logger LOGGER = LogManager.getLogger(CreateCartTest.class);
+public class CartTest extends BaseTest {
+    private static final Logger LOGGER = LogManager.getLogger(CartTest.class);
     private UserClient userClient;
     private RandomDataUtils randomDataUtils;
     private CartClient cartClient;
@@ -28,8 +27,8 @@ public class CreateCartTest extends BaseTest {
 
     @Test
     @Description("User should be able to create cart successfully with valid credentials.")
-    public void shouldAbleToCreateCart() {
-
+    public void shouldBeAbleToCreateCartSuccessfully() {
+        LOGGER.info("createAndDeleteCart test started...");
         String randomEmail = randomDataUtils.generateRandomEmail();
         String password = randomDataUtils.generateRandomPassword();
 
@@ -44,12 +43,40 @@ public class CreateCartTest extends BaseTest {
         GetCartResponseBody getCartResponseBody = cartClient.getCart(accessToken);
         getCartResponseBody.assertGetCartResponseBody(getCartResponseBody);
         String cartId = createCartResponseBody.getCartId();
-
         assertEquals(cartId, getCartResponseBody.getCartId(), "Cart ID is not matching");
 
         DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, cartId);
-        Assert.assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
+        assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
 
-        LOGGER.info("shouldAbleToCreateCart test completed successfully.");
+        LOGGER.info("shouldAbleToCreateCart test completed successfully...");
+    }
+
+    @Test
+    @Description("Create cart when the cart is already created.")
+    public void shouldFailToCreateDuplicateCart() {
+        LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test started...");
+
+        // Arrange
+        String randomEmail = randomDataUtils.generateRandomEmail();
+        String password = randomDataUtils.generateRandomPassword();
+
+        String accessToken = userClient.signup(randomEmail, password)
+                .getData()
+                .getSession()
+                .getAccessToken();
+
+        CreateCartResponseBody createCartResponseBody1 = cartClient.createCart(accessToken);
+        createCartResponseBody1.assertCreateCartResponseBody(createCartResponseBody1);
+
+        // Act
+        CreateCartResponseBody createCartResponseBody2 = cartClient.createCart(accessToken);
+
+        // Assert
+        assertEquals(createCartResponseBody2.getMessage(), "Cart already created for the user",
+                "Response message is not matching when the cart is already created");
+
+        DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, createCartResponseBody1.getCartId());
+
+        LOGGER.info("shouldNotBeAbleToCreateCartWhenCartAlreadyExists test completed successfully...");
     }
 }
