@@ -1,5 +1,5 @@
 import clients.UserClient;
-import jdk.jfr.Description;
+import io.qameta.allure.Description;
 import models.auth.LoginResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

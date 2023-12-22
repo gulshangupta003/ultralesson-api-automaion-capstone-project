@@ -46,6 +46,7 @@ bin/
 #browser-stack
 logs
 logs/browserstack-plugin.log
+log4j2-sample-2023-12-21.log
 
 #allure
 allure-results

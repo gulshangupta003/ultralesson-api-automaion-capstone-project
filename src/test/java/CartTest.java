@@ -1,6 +1,6 @@
 import clients.CartClient;
 import clients.UserClient;
-import jdk.jfr.Description;
+import io.qameta.allure.Description;
 import models.cart.CreateCartResponseBody;
 import models.cart.DeleteCartResponseBody;
 import models.cart.GetCartResponseBody;
@@ -140,7 +140,7 @@ public class CartTest extends BaseTest {
     }
 
     @Test
-    @Description("Attempting to create a cart with an invalid (unauthorized) token should throw ApiException with status code 401.")
+    @Description("Attempting to create a cart with an invalid (unauthorized) token")
     public void shouldNotCreateCartWhenUnauthorized() {
         // Arrange
         LOGGER.info("shouldNotCreateCartWhenUnauthorized test started...");
@@ -156,6 +156,7 @@ public class CartTest extends BaseTest {
     }
 
     public void deleteCart(String accessToken, String cartId) {
+        LOGGER.info("Deleting cart with ID: {}", cartId);
         DeleteCartResponseBody deleteCartResponseBody = cartClient.deleteCart(accessToken, cartId);
         assertEquals(deleteCartResponseBody.getStatusCode(), 204, "Invalid status code");
     }

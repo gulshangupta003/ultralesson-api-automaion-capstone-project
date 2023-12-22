@@ -44,14 +44,14 @@ public class CartClient {
     }
 
     public DeleteCartResponseBody deleteCart(String accessToken, String cartId) {
-        String deleteCartEndpoint = EndpointConfig.getEndpoint("cart", "deleteCart").replace("{CART_ID}", cartId);
+        String deleteCartEndpoint = EndpointConfig.getEndpoint("cart", "deleteCart");
 
         Response response = given()
                 .filter(new RestAssuredListener())
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
                 .when()
-                .delete(deleteCartEndpoint);
+                .delete(deleteCartEndpoint + cartId);
 
         DeleteCartResponseBody deleteCartResponseBody = new DeleteCartResponseBody();
         if (response.getStatusCode() == 500)
