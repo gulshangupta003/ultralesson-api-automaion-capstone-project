@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Parallel test suite" parallel="methods" thread-count="2">
+<suite name="Parallel test suite" parallel="methods" thread-count="4">
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
@@ -7,6 +7,8 @@
         <classes>
             <class name="UserLoginTest"/>
             <class name="UserSignupTest"/>
+            <class name="CartTest"/>
+            <class name="AddItemTest"/>
             <!-- Add more classes as needed -->
         </classes>
     </test>

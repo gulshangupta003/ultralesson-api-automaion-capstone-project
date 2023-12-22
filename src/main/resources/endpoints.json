@@ -3,15 +3,24 @@
     "signup": "/api/auth/signup",
     "login": "/api/auth/login"
   },
-  "product": {
-    "getProductsList": "/api/products"
-  },
   "cart": {
     "createCart": "/api/cart",
-    "deleteCart": "/api/cart/{CART_ID}",
+    "deleteCart": "/api/cart/",
     "getCart": "/api/cart"
   },
-  "payment": {
+  "cartItems": {
+    "addItemToCart": "/api/cart/{{CART_ID}}/items",
+    "updateCartItem": "/api/cart/{{CART_ID}}/items/{{CART_ITEM_ID}}"
+  },
+  "product": {
+    "productList": "/api/products",
+    "getProductById": "/api/products/{{PRODUCT_ID}}"
+  },
+  "profile": {
+    "createProfile": "/api/profile",
+    "updateProfileInfo": "/api/profile"
+  },
+  "payments": {
     "makePayment": "/api/payment"
   }
 }

@@ -18,11 +18,11 @@ public class GetCartResponseBody {
     private String createdAt;
     private String message;
 
-    public void assertGetCartResponseBody(GetCartResponseBody getCartResponseBody) {
-        assertEquals(getCartResponseBody.getStatusCode(), 200, "Invalid status code");
-        assertNotNull(getCartResponseBody.getCartId());
-        assertNotNull(getCartResponseBody.getUserId(), "User ID should not be null.");
-        assertNotNull(getCartResponseBody.getCreatedAt());
-        assertNull(getCartResponseBody.getMessage());
+    public void assertGetCartResponseBody(GetCartResponseBody responseBody) {
+        assertEquals(responseBody.getStatusCode(), 200, "Invalid status code");
+        assertNotNull(responseBody.getCartId());
+        assertNotNull(responseBody.getUserId(), "User ID should not be null.");
+        assertNotNull(responseBody.getCreatedAt());
+        assertNull(responseBody.getMessage());
     }
 }
